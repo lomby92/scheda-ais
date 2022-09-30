@@ -1,0 +1,31 @@
+---
+// Do not use browsers that does not support ":has()" CSS, see: https://caniuse.com/css-has
+---
+
+<dialog class="rounded-lg">
+    <div class="flex flex-col p-4">
+        <span class="text-3xl font-bold text-center mb-4"> ⚠️ ATTENZIONE ⚠️</span>
+        <p>
+            Il browser usato non è attualmente supportato. I browser supportati sono: Safari, Chrome e tutte le derivate
+            di quest'ultimo.
+        </p>
+    </div>
+</dialog>
+<script>
+    import { UAParser } from "ua-parser-js";
+
+    const parser = new UAParser();
+    let browserName = "";
+    if (parser.getBrowser !== undefined) {
+        browserName = (parser.getBrowser() as any).name;
+    }
+
+    if (!browserName.includes("Chrom") && browserName !== "Safari" && browserName !== "Mobile Safari") {
+        document.querySelector<HTMLDialogElement>("dialog")!.showModal();
+    }
+</script>
+<style>
+    dialog::backdrop {
+        backdrop-filter: blur(3px);
+    }
+</style>

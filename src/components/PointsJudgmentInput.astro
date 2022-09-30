@@ -1,0 +1,66 @@
+---
+import * as crypto from "crypto";
+
+export interface Props {
+    title: string;
+    multiplier: 1 | 2 | 3;
+    inputSelector: string;
+    resultClassName: string;
+}
+
+const { title, multiplier, inputSelector, resultClassName } = Astro.props;
+const componentId = crypto.randomBytes(4).toString("hex");
+---
+
+<div id={componentId} class="grid grid-cols-9 gap-x-2 items-center">
+    <span class="col-span-2">{title}</span>
+    <div class="col-span-9 sm:col-span-5 flex justify-self-center">
+        {
+            [1, 2, 3, 4, 5].map((n) => (
+                <>
+                    <input class="hidden" type="radio" name={inputSelector} value={n * multiplier} />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        class="cursor-pointer fill-lightGrey h-14 w-14 m-2 hover:fill-yellow"
+                    >
+                        <polygon points="26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798   10.288,52.549 13.467,34.013 0,20.887 18.611,18.182 " />
+                    </svg>
+                </>
+            ))
+        }
+    </div>
+    <span class="col-start-8 col-span-1 text-center" data-role="multiplier" data-multiplier={multiplier}
+        >(x{multiplier})</span
+    >
+    <span class={`col-span-1 text-right ${resultClassName}`} data-role="result">-</span>
+</div>
+
+<script define:vars={{ componentId }}>
+    const component = document.getElementById(componentId);
+
+    const multiplier = parseInt(
+        component.querySelector(`[data-role="multiplier"]`).getAttribute("data-multiplier"),
+        10
+    );
+    const resultContainer = component.querySelector(`[data-role="result"]`);
+
+    component.querySelectorAll("input").forEach((input) =>
+        input.nextElementSibling.addEventListener("click", () => {
+            input.checked = true;
+
+            resultContainer.innerText = input.value;
+        })
+    );
+</script>
+
+<style>
+    input[type="radio"] + svg {
+        -webkit-transition: all 0.2s;
+        transition: all 0.2s;
+    }
+
+    input:checked + svg {
+        fill: theme("colors.yellow");
+    }
+</style>

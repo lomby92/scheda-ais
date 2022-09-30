@@ -1,0 +1,36 @@
+---
+export interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<details open>
+    <summary>{title}</summary>
+    <hr class="my-2" />
+    <slot />
+</details>
+
+<style>
+    details {
+        @apply border;
+        @apply rounded;
+        @apply mb-4;
+        @apply p-4;
+    }
+
+    summary {
+        @apply cursor-pointer;
+        @apply text-xl;
+        @apply font-bold;
+    }
+
+    details summary::marker {
+        content: "+ ";
+    }
+
+    details[open] summary::marker {
+        content: "- ";
+    }
+</style>

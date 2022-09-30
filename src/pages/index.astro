@@ -1,0 +1,19 @@
+---
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Schede AIS">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <Card
+            title="Scheda analitico-descrittiva"
+            link="/scheda-analitico-descrittiva"
+            description="Compila la scheda analitico-descrittiva e scaricala come PDF"
+        />
+        <Card
+            title="Scheda di valutazione a punteggio"
+            link="/scheda-di-valutazione-a-punteggio"
+            description="Compila la scheda a punti e scaricala come PDF"
+        />
+    </div>
+</Layout>

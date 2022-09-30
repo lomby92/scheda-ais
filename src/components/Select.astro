@@ -1,0 +1,73 @@
+---
+export interface Props {
+    title: string;
+    options: string[];
+    required: boolean;
+    name: string;
+}
+
+const { title, options, required, name } = Astro.props;
+---
+
+<label>
+    <select required={required} name={name}>
+        <option value="" selected></option>
+        {options.map((option) => <option value={option.toLowerCase()}>{option}</option>)}
+    </select>
+    <span class="placeholder">{title}</span>
+</label>
+
+<style>
+    label {
+        @apply relative;
+        @apply text-sm;
+        @apply mb-2;
+        @apply border-t-8;
+        @apply border-t-transparent;
+        @apply w-full;
+        @apply grid;
+    }
+
+    select {
+        @apply border-2;
+        @apply border-transparent;
+        @apply appearance-none;
+        @apply bg-lightGrey;
+        @apply p-2;
+        @apply rounded;
+        @apply outline-none;
+        @apply w-auto;
+        transition: border-color 0.3s ease;
+    }
+
+    .placeholder {
+        @apply absolute;
+        @apply left-2;
+        @apply px-1;
+        @apply overflow-hidden;
+        @apply whitespace-nowrap;
+        @apply overflow-ellipsis;
+        @apply top-5;
+        @apply -translate-y-1/2;
+        transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+    }
+
+    select:focus + .placeholder,
+    select:has(> option:first-of-type:not(:checked)) + .placeholder {
+        @apply text-xs;
+        @apply top-0;
+        @apply bg-white;
+        @apply w-auto;
+    }
+
+    select:focus {
+        @apply border-grey;
+        transition-delay: 0.1s;
+        @apply outline-none;
+    }
+
+    select:required + .placeholder::after {
+        content: " *";
+        @apply text-red;
+    }
+</style>

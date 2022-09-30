@@ -1,0 +1,171 @@
+---
+import PointsJudgmentInput from "../../components/PointsJudgmentInput.astro";
+import SheetHeaderSection from "../../components/SheetHeaderSection.astro";
+import SheetSection from "../../components/SheetSection.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Scheda di valutazione a punteggio">
+    <form>
+        <SheetHeaderSection />
+
+        <SheetSection title="Esame visivo">
+            <PointsJudgmentInput
+                title="Aspetto"
+                multiplier={1}
+                inputSelector="visualExam-appearance"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Colore"
+                multiplier={2}
+                inputSelector="visualExam-color"
+                resultClassName="points-judgment-result"
+            />
+        </SheetSection>
+
+        <SheetSection title="Esame olfattivo">
+            <PointsJudgmentInput
+                title="Intensità"
+                multiplier={1}
+                inputSelector="olfactoryExam-intensity"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Complessità"
+                multiplier={2}
+                inputSelector="olfactoryExam-complexity"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Qualità"
+                multiplier={3}
+                inputSelector="olfactoryExam-quality"
+                resultClassName="points-judgment-result"
+            />
+        </SheetSection>
+
+        <SheetSection title="Esame gusto-olfattivo">
+            <PointsJudgmentInput
+                title="Struttura"
+                multiplier={1}
+                inputSelector="tasteOlfactoryExam-structure"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Equilibrio"
+                multiplier={1}
+                inputSelector="tasteOlfactoryExam-equilibrium"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Intensità"
+                multiplier={1}
+                inputSelector="tasteOlfactoryExam-intensity"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Persistenza"
+                multiplier={2}
+                inputSelector="tasteOlfactoryExam-persistence"
+                resultClassName="points-judgment-result"
+            />
+            <PointsJudgmentInput
+                title="Qualità"
+                multiplier={3}
+                inputSelector="tasteOlfactoryExam-quality"
+                resultClassName="points-judgment-result"
+            />
+        </SheetSection>
+
+        <SheetSection title="Considerazioni finali">
+            <PointsJudgmentInput
+                title="Armonia"
+                multiplier={3}
+                inputSelector="finalConsiderations-harmony"
+                resultClassName="points-judgment-result"
+            />
+        </SheetSection>
+
+        <div class="w-full text-right">
+            <div class="border rounded mb-4 p-4 inline-flex text-xl font-bold">
+                <span>Punteggio totale</span>
+                <span class="ml-6" id="punteggio-finale">-</span>
+            </div>
+        </div>
+
+        <div class="mb-4 w-full text-center">
+            <button
+                type="submit"
+                class="bg-grey text-white rounded-lg py-2 px-4 focus-visible:bg-white focus-visible:text-red hover:bg-white hover:text-red hover:outline hover:outline-red hover:outline-2"
+            >
+                Scarica come PDF
+            </button>
+        </div>
+    </form>
+</Layout>
+
+<script>
+    import { pdf } from "@react-pdf/renderer";
+    import FileDownloader from "../../services/FileDownloader";
+    import FileNameFactory from "../../services/FileNameFactory";
+    import FormElementsParser from "../../services/FormElementsParser";
+    import PdfFactory from "../../services/PdfFactory";
+
+    import type SchedaDiValutazioneAPunteggio from "../../models/SchedaDiValutazioneAPunteggio";
+
+    document.addEventListener("click", () => {
+        const subTotals = [...document.querySelectorAll(".points-judgment-result")] as HTMLElement[];
+        const newTotal = subTotals
+            .map((element) => parseInt(element.innerText, 10) || 0)
+            .reduce((carry, n) => carry + n);
+
+        document.getElementById("punteggio-finale")!.innerText = newTotal === 0 ? "-" : newTotal.toString();
+    });
+
+    document.querySelector("form")!.addEventListener("submit", async (event: Event) => {
+        // Prevent form submission via POST
+        event.preventDefault();
+        const formElements = (event.target as HTMLFormElement).elements;
+
+        const formParser = new FormElementsParser(formElements);
+
+        const sheet: SchedaDiValutazioneAPunteggio = {
+            heading: {
+                taster: formParser.parseString("taster"),
+                category: formParser.parseString("category"),
+                sample: formParser.parseNumber("sample"),
+                denomination: formParser.parseString("denomination"),
+                alcoholVolume: formParser.parseNumber("alcoholVolume")!,
+                year: formParser.parseNumber("year")!,
+                wineTemperature: formParser.parseNumber("wineTemperature"),
+                environmentTemperature: formParser.parseNumber("environmentTemperature"),
+                date: formParser.parseDayAndTime("day", "time"),
+                place: formParser.parseString("place"),
+            },
+            visualExam: {
+                appearance: formParser.parseNumber("visualExam-appearance")!,
+                color: formParser.parseNumber("visualExam-color")!,
+            },
+            olfactoryExam: {
+                intensity: formParser.parseNumber("olfactoryExam-intensity")!,
+                complexity: formParser.parseNumber("olfactoryExam-complexity")!,
+                quality: formParser.parseNumber("olfactoryExam-quality")!,
+            },
+            tasteOlfactoryExam: {
+                structure: formParser.parseNumber("tasteOlfactoryExam-structure")!,
+                equilibrium: formParser.parseNumber("tasteOlfactoryExam-equilibrium")!,
+                intensity: formParser.parseNumber("tasteOlfactoryExam-intensity")!,
+                persistence: formParser.parseNumber("tasteOlfactoryExam-persistence")!,
+                quality: formParser.parseNumber("tasteOlfactoryExam-quality")!,
+            },
+            finalConsiderations: {
+                harmony: formParser.parseNumber("finalConsiderations-harmony")!,
+                observations: "", // Not supported yet
+            },
+        };
+
+        const blob = await pdf(PdfFactory.createSchedaDiValutazioneAPunteggio(sheet)).toBlob();
+        FileDownloader.download(blob, FileNameFactory.forSchedaDiValutazioneAPunteggio(sheet));
+    });
+</script>

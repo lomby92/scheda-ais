@@ -1,0 +1,19 @@
+---
+import Button from "./Button.astro";
+
+export interface Props {
+    title: string;
+    link: string;
+    description: string;
+}
+
+const { title, link, description } = Astro.props;
+---
+
+<div class="border rounded-xl shadow-md shadow-grey p-4">
+    <h2>{title}</h2>
+    <p>{description}</p>
+    <div class="w-full flex justify-end mt-4">
+        <Button text="Compila" link={link} />
+    </div>
+</div>

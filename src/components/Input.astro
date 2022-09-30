@@ -1,0 +1,68 @@
+---
+export interface Props {
+    title: string;
+    inputAttributes: any;
+}
+
+const { title, inputAttributes } = Astro.props;
+---
+
+<label>
+    <input placeholder=" " {...inputAttributes} />
+    <span class="placeholder">{title}</span>
+</label>
+
+<style>
+    label {
+        @apply relative;
+        @apply text-sm;
+        @apply mb-2;
+        @apply border-t-8;
+        @apply border-t-transparent;
+        @apply w-full;
+        @apply grid;
+    }
+
+    input {
+        @apply border-2;
+        @apply border-transparent;
+        @apply appearance-none;
+        @apply bg-lightGrey;
+        @apply p-2;
+        @apply rounded;
+        @apply outline-none;
+        @apply w-auto;
+        transition: border-color 0.3s ease;
+    }
+
+    .placeholder {
+        @apply absolute;
+        @apply left-2;
+        @apply px-1;
+        @apply overflow-hidden;
+        @apply whitespace-nowrap;
+        @apply overflow-ellipsis;
+        @apply top-5;
+        @apply -translate-y-1/2;
+        transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+    }
+
+    input:focus + .placeholder,
+    input:not(:placeholder-shown) + .placeholder {
+        @apply text-xs;
+        @apply top-0;
+        @apply bg-white;
+        @apply w-auto;
+    }
+
+    input:focus {
+        @apply border-grey;
+        transition-delay: 0.1s;
+        @apply outline-none;
+    }
+
+    input:required + .placeholder::after {
+        content: " *";
+        @apply text-red;
+    }
+</style>

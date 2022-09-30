@@ -1,0 +1,356 @@
+---
+import Input from "../../components/Input.astro";
+import Select from "../../components/Select.astro";
+import SheetHeaderSection from "../../components/SheetHeaderSection.astro";
+import SheetSection from "../../components/SheetSection.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Scheda analitico-descrittiva">
+    <form>
+        <SheetHeaderSection />
+        <SheetSection title="Esame visivo">
+            <div class="flex flex-col">
+                <Select
+                    title="Limpidezza"
+                    options={["Velato", "Abbastanza limpido", "Limpido", "Cristallino", "Brillante"]}
+                    required={true}
+                    name="limpidity"
+                />
+                <Select
+                    title="Colore"
+                    options={[
+                        "Giallo verdolino",
+                        "Giallo paglierino",
+                        "Giallo dorato",
+                        "Giallo ambrato",
+                        "Rosa tenue",
+                        "Rosa cerasuolo",
+                        "Rosa chiaretto",
+                        "Rosso porpora",
+                        "Rosso rubino",
+                        "Rosso granato",
+                        "Rosso aranciato",
+                    ]}
+                    required={true}
+                    name="color"
+                />
+                <fieldset class="px-4 border border-b-0 rounded-t">
+                    <legend>Consistenza/Effervescenza</legend>
+                    <label>
+                        <input type="radio" value="c" name="c/e" checked />&nbsp;Consistenza
+                    </label>
+                    <label>
+                        <input type="radio" value="e" name="c/e" />&nbsp;Effervescenza
+                    </label>
+                </fieldset>
+                <div id="consistenza">
+                    <Select
+                        title="Consistenza"
+                        options={["Fluido", "Poco consistente", "Abbastanza consistente", "Consistente", "Viscoso"]}
+                        required={true}
+                        name="consistency"
+                    />
+                </div>
+                <div id="effervescenza" class="hidden">
+                    <Select
+                        title="Effervescenza - Grana bollicine"
+                        options={["Grossolane", "Abbastanza fini", "Fini"]}
+                        required={false}
+                        name="effervescence-grain"
+                    />
+                    <Select
+                        title="Effervescenza - Numero bollicine"
+                        options={["Scarse", "Abbastanza numerose", "Numerose"]}
+                        required={false}
+                        name="effervescence-bobbleNumber"
+                    />
+                    <Select
+                        title="Effervescenza - Persistenza bollicine"
+                        options={["Evanescenti", "Abbastanza persistenti", "Persistenti"]}
+                        required={false}
+                        name="effervescence-persistence"
+                    />
+                </div>
+                <Input
+                    title="Osservazioni"
+                    inputAttributes={{
+                        type: "text",
+                        name: "visualExam-observations",
+                    }}
+                />
+            </div>
+        </SheetSection>
+        <SheetSection title="Esame olfattivo">
+            <Select
+                title="Intensità"
+                options={["Carente", "Poco intenso", "Abbastanza intenso", "Intenso", "Molto intenso"]}
+                required={true}
+                name="olfactoryExam-intensity"
+            />
+            <Select
+                title="Complessità"
+                options={["Carente", "Poco complesso", "Abbastanza complesso", "Complesso", "Ampio"]}
+                required={true}
+                name="olfactoryExam-complexity"
+            />
+            <Select
+                title="Qualità"
+                options={["Comune", "Poco fine", "Abbastanza fine", "Fine", "Eccellente"]}
+                required={true}
+                name="olfactoryExam-quality"
+            />
+            <Input
+                title="Descrizione"
+                inputAttributes={{
+                    type: "text",
+                    required: true,
+                    name: "olfactoryExam-description",
+                }}
+            />
+            <Input
+                title="Osservazioni"
+                inputAttributes={{
+                    type: "text",
+                    name: "olfactoryExam-observations",
+                }}
+            />
+        </SheetSection>
+        <SheetSection title="Esame gusto-olfattivo">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-2">
+                <div class="col-span-1">
+                    <Select
+                        title="Zuccheri"
+                        options={["Secco", "Abboccato", "Amabile", "Dolce", "Stucchevole"]}
+                        required={true}
+                        name="tasteOlfactoryExam-sugars"
+                    />
+                    <Select
+                        title="Alcoli"
+                        options={["Leggero", "Poco caldo", "Abbastanza caldo", "Caldo", "Alcolico"]}
+                        required={true}
+                        name="tasteOlfactoryExam-alcohols"
+                    />
+                    <Select
+                        title="Polialcoli"
+                        options={["Spigoloso", "Poco morbido", "Abbastanza morbido", "Morbido", "Pastoso"]}
+                        required={true}
+                        name="tasteOlfactoryExam-sugarAlcohols"
+                    />
+                </div>
+                <div class="col-span-1">
+                    <Select
+                        title="Acidi"
+                        options={["Piatto", "Poco fresco", "Abbastanza fresco", "Fresco", "Acidulo"]}
+                        required={true}
+                        name="tasteOlfactoryExam-acids"
+                    />
+                    <Select
+                        title="Tannini"
+                        options={["Molle", "Poco tannico", "Abbastanza tannico", "Tannico", "Astringente"]}
+                        required={false}
+                        name="tasteOlfactoryExam-tannins"
+                    />
+                    <Select
+                        title="Sostanze minerali"
+                        options={["Sipito", "Poco sapido", "Abbastanza sapido", "Sapido", "Salato"]}
+                        required={true}
+                        name="tasteOlfactoryExam-mineralSubstances"
+                    />
+                </div>
+            </div>
+            <Select
+                title="Struttura o corpo"
+                options={["Magro", "Debole", "Di corpo", "Robusto", "Pesante"]}
+                required={true}
+                name="tasteOlfactoryExam-structure"
+            />
+            <Select
+                title="Equilibrio"
+                options={["Poco equilibrato", "Abbastanza equilibrato", "Equilibrato"]}
+                required={true}
+                name="tasteOlfactoryExam-equilibrium"
+            />
+            <Select
+                title="Intensità"
+                options={["Carente", "Poco intenso", "Abbastanza intenso", "Intenso", "Molto intenso"]}
+                required={true}
+                name="tasteOlfactoryExam-intensity"
+            />
+            <Select
+                title="Persistenza"
+                options={["Corto", "Poco persistente", "Abbastanza persistente", "Persistente", "Molto persistente"]}
+                required={true}
+                name="tasteOlfactoryExam-persistence"
+            />
+            <Select
+                title="Qualità"
+                options={["Comune", "Poco fine", "Abbastanza fine", "Fine", "Eccellente"]}
+                required={true}
+                name="tasteOlfactoryExam-quality"
+            />
+            <Input
+                title="Osservazioni"
+                inputAttributes={{
+                    type: "text",
+                    name: "tasteOlfactoryExam-observations",
+                }}
+            />
+        </SheetSection>
+        <SheetSection title="Considerazioni finali">
+            <Select
+                title="Stato evolutivo"
+                options={["Immaturo", "Giovane", "Pronto", "Maturo", "Vecchio"]}
+                required={true}
+                name="finalConsiderations-evolutionaryState"
+            />
+            <Select
+                title="Armonia"
+                options={["Poco armonico", "Abbastanza armonico", "Armonico"]}
+                required={true}
+                name="finalConsiderations-harmony"
+            />
+            <Input
+                title="Abbinamenti"
+                inputAttributes={{
+                    type: "text",
+                    name: "finalConsiderations-combinations",
+                }}
+            />
+            <Input
+                title="Osservazioni"
+                inputAttributes={{
+                    type: "text",
+                    name: "finalConsiderations-observations",
+                }}
+            />
+        </SheetSection>
+        <div class="mb-4 w-full text-center">
+            <button
+                type="submit"
+                class="bg-grey text-white rounded-lg py-2 px-4 focus-visible:bg-white focus-visible:text-red hover:bg-white hover:text-red hover:outline hover:outline-red hover:outline-2"
+            >
+                Scarica come PDF
+            </button>
+        </div>
+
+        <script>
+            import { pdf } from "@react-pdf/renderer";
+            import PdfFactory from "../../services/PdfFactory";
+            import FileDownloader from "../../services/FileDownloader";
+            import FileNameFactory from "../../services/FileNameFactory";
+            import FormElementsParser from "../../services/FormElementsParser";
+
+            import type SchedaAnaliticoDescrittiva from "../../models/SchedaAnaliticoDescrittiva";
+
+            document.querySelectorAll(`input[name="c/e"]`).forEach((input) =>
+                input.addEventListener("click", (event: Event) => {
+                    const inputTarget = event.target as HTMLInputElement;
+                    const consistenzaContainer = document.getElementById("consistenza")!;
+                    const effervescenzaContainer = document.getElementById("effervescenza")!;
+
+                    const allConsistenzaInputs = [
+                        ...consistenzaContainer.querySelectorAll("input"),
+                        ...consistenzaContainer.querySelectorAll("select"),
+                    ];
+                    const allEffervescenzaInputs = [
+                        ...effervescenzaContainer.querySelectorAll("input"),
+                        ...effervescenzaContainer.querySelectorAll("select"),
+                    ];
+
+                    // Reset all inputs as not required
+                    [...allConsistenzaInputs, ...allEffervescenzaInputs].forEach((input) => {
+                        input.required = false;
+                        input.value = "";
+                    });
+
+                    if (inputTarget.value === "c") {
+                        consistenzaContainer.classList.remove("hidden");
+                        consistenzaContainer.classList.add("block");
+
+                        effervescenzaContainer.classList.remove("block");
+                        effervescenzaContainer.classList.add("hidden");
+
+                        allConsistenzaInputs.forEach((input) => (input.required = true));
+                    } else {
+                        consistenzaContainer.classList.remove("block");
+                        consistenzaContainer.classList.add("hidden");
+
+                        effervescenzaContainer.classList.remove("hidden");
+                        effervescenzaContainer.classList.add("block");
+
+                        allEffervescenzaInputs.forEach((input) => (input.required = true));
+                    }
+                })
+            );
+
+            document.querySelector("button")!.addEventListener("click", () => {
+                // Open all sections before submitting, it allows to see errors
+                document.querySelectorAll("details").forEach((detailsElement) => (detailsElement.open = true));
+            });
+
+            document.querySelector("form")!.addEventListener("submit", async (event: Event) => {
+                // Prevent form submission via POST
+                event.preventDefault();
+                const formElements = (event.target as HTMLFormElement).elements;
+
+                const formParser = new FormElementsParser(formElements);
+
+                const sheet: SchedaAnaliticoDescrittiva = {
+                    heading: {
+                        taster: formParser.parseString("taster"),
+                        category: formParser.parseString("category"),
+                        sample: formParser.parseNumber("sample"),
+                        denomination: formParser.parseString("denomination"),
+                        alcoholVolume: formParser.parseNumber("alcoholVolume")!,
+                        year: formParser.parseNumber("year")!,
+                        wineTemperature: formParser.parseNumber("wineTemperature"),
+                        environmentTemperature: formParser.parseNumber("environmentTemperature"),
+                        date: formParser.parseDayAndTime("day", "time"),
+                        place: formParser.parseString("place"),
+                    },
+                    visualExam: {
+                        limpidity: formParser.parseString("limpidity"),
+                        color: formParser.parseString("color"),
+                        consistency: formParser.parseString("consistency"),
+                        effervescence: {
+                            grain: formParser.parseString("effervescence-grain"),
+                            bobbleNumber: formParser.parseString("effervescence-bobbleNumber"),
+                            persistence: formParser.parseString("effervescence-persistence"),
+                        },
+                        observations: formParser.parseString("visualExam-observations"),
+                    },
+                    olfactoryExam: {
+                        intensity: formParser.parseString("olfactoryExam-intensity"),
+                        complexity: formParser.parseString("olfactoryExam-complexity"),
+                        quality: formParser.parseString("olfactoryExam-quality"),
+                        description: formParser.parseString("olfactoryExam-description"),
+                        observations: formParser.parseString("olfactoryExam-observations"),
+                    },
+                    tasteOlfactoryExam: {
+                        sugars: formParser.parseString("tasteOlfactoryExam-sugars"),
+                        alcohols: formParser.parseString("tasteOlfactoryExam-alcohols"),
+                        sugarAlcohols: formParser.parseString("tasteOlfactoryExam-sugarAlcohols"),
+                        acids: formParser.parseString("tasteOlfactoryExam-acids"),
+                        tannins: formParser.parseString("tasteOlfactoryExam-tannins"),
+                        mineralSubstances: formParser.parseString("tasteOlfactoryExam-mineralSubstances"),
+                        structure: formParser.parseString("tasteOlfactoryExam-structure"),
+                        equilibrium: formParser.parseString("tasteOlfactoryExam-equilibrium"),
+                        intensity: formParser.parseString("tasteOlfactoryExam-intensity"),
+                        persistence: formParser.parseString("tasteOlfactoryExam-persistence"),
+                        quality: formParser.parseString("tasteOlfactoryExam-quality"),
+                        observations: formParser.parseString("tasteOlfactoryExam-observations"),
+                    },
+                    finalConsiderations: {
+                        evolutionaryState: formParser.parseString("finalConsiderations-evolutionaryState"),
+                        harmony: formParser.parseString("finalConsiderations-harmony"),
+                        combinations: formParser.parseString("finalConsiderations-combinations"),
+                        observations: formParser.parseString("finalConsiderations-observations"),
+                    },
+                };
+                const blob = await pdf(PdfFactory.createSchedaAnaliticoDescrittiva(sheet)).toBlob();
+                FileDownloader.download(blob, FileNameFactory.forSchedaAnaliticoDescrittiva(sheet));
+            });
+        </script>
+    </form>
+</Layout>
