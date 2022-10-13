@@ -207,7 +207,7 @@ export default class PdfFactory {
                     {PdfFactory.createField("Campione n°", heading.sample ?? "")}
                     {PdfFactory.createField("Denominazione", heading.denomination)}
                     {PdfFactory.createField("Titolo alcolometrico", heading.alcoholVolume)}
-                    {PdfFactory.createField("Annata", heading.year)}
+                    {PdfFactory.createField("Annata", heading.year ?? '-')}
                 </View>
                 <View style={{ marginLeft: 10 }}>
                     {PdfFactory.createField("Temperatura del vino", `${heading.wineTemperature || "-"} °C`)}

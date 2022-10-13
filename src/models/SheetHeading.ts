@@ -4,7 +4,7 @@ export default interface SheetHeading {
     sample: number | null;
     denomination: string;
     alcoholVolume: number;
-    year: number;
+    year: number | null;
     wineTemperature: number | null;
     environmentTemperature: number | null;
     date: Date;
