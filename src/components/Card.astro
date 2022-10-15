@@ -5,15 +5,19 @@ export interface Props {
     title: string;
     link: string;
     description: string;
+    image: string;
 }
 
-const { title, link, description } = Astro.props;
+const { title, link, description, image } = Astro.props;
 ---
 
-<div class="border rounded-xl shadow-md shadow-grey p-4">
-    <h2>{title}</h2>
-    <p>{description}</p>
-    <div class="w-full flex justify-end mt-4">
-        <Button text="Compila" link={link} />
+<div class="border rounded-xl shadow-md shadow-grey flex">
+    <img src={image} class="w-1/3 rounded-l-xl object-cover" />
+    <div class="w-full p-4 flex flex-col">
+        <h2>{title}</h2>
+        <p class="grow">{description}</p>
+        <div class="w-full flex justify-end mt-4">
+            <Button text="Compila" link={link} />
+        </div>
     </div>
 </div>
