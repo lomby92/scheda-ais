@@ -214,7 +214,7 @@ export default class PdfFactory {
                     {PdfFactory.createField("Temperatura ambiente", `${heading.environmentTemperature || "-"} °C`)}
                     {PdfFactory.createField(
                         "Data",
-                        `${heading.date.getDay()}/${heading.date.getMonth()}/${heading.date.getFullYear()}`
+                        `${heading.date.getDate()}/${heading.date.getMonth() + 1}/${heading.date.getFullYear()}`
                     )}
                     {PdfFactory.createField("Ora", `${heading.date.getHours()}:${heading.date.getMinutes()}`)}
                     {PdfFactory.createField("Luogo", heading.place)}

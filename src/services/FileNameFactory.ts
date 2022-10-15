@@ -14,8 +14,8 @@ export default class FileNameFactory {
     private static getPrefixFromHeading(heading: SheetHeading): string {
         const date = [
             heading.date.getFullYear().toString(),
-            heading.date.getMonth().toString().padStart(2, "0"),
-            heading.date.getDay().toString().padStart(2, "0"),
+            (heading.date.getMonth() + 1).toString().padStart(2, "0"),
+            heading.date.getDate().toString().padStart(2, "0"),
         ].join("-");
 
         return `${date} - ${heading.denomination}`;

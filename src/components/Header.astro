@@ -1,3 +1,12 @@
+---
+export interface Props {
+    title?: string | undefined;
+}
+
+const { title } = Astro.props;
+---
+
 <nav class="flex flex-row items-center w-full px-4 bg-white shadow-md shadow-grey">
-    <h1 class="mt-4 text-grey">Scheda AIS</h1>
+    <img src="/logo.png" class="my-2 w-24" />
+    <h1 class="mt-4 ml-2 text-grey">{ title || 'Scheda AIS' }</h1>
 </nav>
